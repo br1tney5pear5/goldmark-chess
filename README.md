@@ -5,6 +5,44 @@ This is an extension to [goldmark](http://github.com/yuin/goldmark) markdown tha
 that renders interactive previews for chess [PGN](https://en.wikipedia.org/wiki/Portable_Game_Notation)
 embedded in a fenced code blocks.
 
+Usage
+--------------------
+
+```go
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"github.com/yuin/goldmark"
+	chess "github.com/br1tney5pear5/goldmark-chess"
+)
+
+func main() {
+	source := `~~~chess
+[Event "Reykjavik Rapid"]
+[Site "Reykjavik ISL"]
+[Date "2004.03.18"]
+[Result "1-0"]
+[White "Magnus Carlsen"]
+[Black "Garry Kasparov"]
+1. e4 e5 2. Bc4 Nc6 3. Qh5 Nf6 4. Qxf7#
+~~~
+`
+	// Simple usage
+	md := goldmark.New(
+		goldmark.WithExtensions(
+			chess.Chess,
+		),
+        )
+        var buf bytes.Buffer
+        if err := md.Convert([]byte(source), &buf); err != nil {
+          panic(err)
+        }
+        fmt.Print(buf.String())
+}
+```
+
 Installation
 --------------------
 ```
